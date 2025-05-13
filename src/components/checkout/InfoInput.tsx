@@ -14,7 +14,7 @@ type InputInfoProps = {
 };
 
 const InfoInput = forwardRef<HTMLInputElement, InputInfoProps>(
-  ({ label, id, placeholder, type = "text", errorMessage = "", value, handleValue, maxLength = 100, required, inputMode = 'text'}, ref) => {
+  ({ label, id, placeholder, type = "text", errorMessage = "", value, handleValue, maxLength = 100, required, inputMode = 'text' }, ref) => {
     return (
       <div className="flex flex-col">
         <label htmlFor={id} className="text-sm font-bold mb-1 flex justify-between items-center">
@@ -24,15 +24,17 @@ const InfoInput = forwardRef<HTMLInputElement, InputInfoProps>(
         <input
           ref={ref}
           onChange={handleValue}
-          value={value === 0 ? "" : value}
+          value={value === 0 ? "" : value} // empty string if value is zero
           id={id}
           type={type}
           name={id}
           inputMode={inputMode}
           maxLength={maxLength}
-          placeholder={placeholder}
+          placeholder={value === "" ? placeholder : ""} // Update placeholder conditionally
           required={required}
-          className={errorMessage ? 'border p-3 rounded-md outline-none border-red-500 caret-custom-orange' : 'focus:border-custom-orange border p-3 rounded-md outline-none caret-custom-orange'}
+          className={`border p-3 rounded-md outline-none caret-custom-orange ${
+            errorMessage ? 'border-red-500' : 'focus:border-custom-orange'
+          }`}
           aria-invalid={errorMessage ? 'true' : 'false'}
         />
       </div>
